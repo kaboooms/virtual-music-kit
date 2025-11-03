@@ -1,0 +1,161 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+  margin: 0;
+
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  font-family: var(--font-body), sans-serif;
+  cursor: default;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+:root {
+  --font-heading: 'Oswald';
+  --font-body: 'Mulish';
+
+  --primary-color: #222222;
+  --overlay-color: rgb(34, 34, 34, 60%);
+  --placeholder-color: #989898;
+  --primary-color-light: #ffff;
+  --primary-text-color: #ffff;
+  --secondary-color: #FF3C3C;
+  --radius: 8px;
+}
+
+
+html {
+  background-color: var(--primary-color);
+  color: var(--primary-text-color);
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+
+a {
+  color: inherit; /* берём цвет от родителя */
+  text-decoration: none; /* убираем подчёркивание */
+  cursor: pointer; /* курсор «рука» */
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* хром, сафари */
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* ie 10+ */
+body {
+  -ms-overflow-style: none;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 380px) {
+
+}
