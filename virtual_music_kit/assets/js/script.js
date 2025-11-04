@@ -260,7 +260,7 @@ class VirtualDrumKit {
         editBtn.classList.add(type);
       })
     }
-    editBtn.textContent = '✎'; // или можно использовать иконку SVG
+    editBtn.textContent = '✎';
     editBtn.title = `Edit key ${keyLetter}`;
     container.appendChild(span);
     container.appendChild(editBtn);
