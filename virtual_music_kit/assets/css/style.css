@@ -1,11 +1,11 @@
 :root {
   --font-heading: "Parkinsans";
   --font-body: "Zalando Sans SemiExpanded";
-  --primary-color: #ffff;
+  --primary-color:  #1a1a1a;
   --overlay-color: rgb(34, 34, 34, 60%);
   --placeholder-color: #989898;
   --primary-color-light: #d3d8e1;
-  --primary-text-color: #232427;
+  --primary-text-color: #d3d8e1;
   --secondary-color: #224eec;
   --radius: 8px;
 }
@@ -34,6 +34,9 @@ html:focus-within {
 
 body {
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   font-family: var(--font-body), sans-serif;
@@ -124,6 +127,74 @@ a:active {
   overflow: hidden;
 }
 
+.wrapper{
+  padding: 20px;
+  position: relative;
+  max-width: 1280px;
+  width: 100%;
+  height: 100%;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.edit-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.sequence-container {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sequence-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px;
+  border: 2px solid #666;
+  border-radius: 8px;
+  background: #2d2d2d;
+  color: white;
+  font-size: 16px;
+}
+
+.sequence-input:disabled {
+  opacity: 0.6;
+}
+
+.play-sequence {
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.play-sequence:hover:not(:disabled) {
+  background: #45a049;
+}
+
+.play-sequence:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+
 .shortcut-name {
   align-items: center;
   background-color: #72ac51;
@@ -171,7 +242,8 @@ a:active {
   background-size: 35%;
   height: 100%;
   position: absolute;
-  width: 100%
+  width: 100%;
+  z-index: 20;
 }
 
 .bass-pedal-wrapper .pedal {
@@ -192,7 +264,7 @@ a:active {
   width: 21%
 }
 
-.snare .cross,.snare .drum {
+.snare .cross,.snare .drumm {
   cursor: pointer;
   display: flex;
   height: 14%;
@@ -202,11 +274,11 @@ a:active {
   z-index: 1
 }
 
-.snare .drum {
+.snare .drumm {
   margin-top: 90%
 }
 
-.snare .drum .shortcut-name {
+.snare .drumm .shortcut-name {
   bottom: 20%
 }
 
@@ -370,7 +442,7 @@ a:active {
   width: 20.5%
 }
 
-.hihat .drum {
+.hihat .drumm {
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -381,7 +453,7 @@ a:active {
   z-index: 1
 }
 
-.hihat .drum div {
+.hihat .drumm div {
   align-items: center;
   display: flex;
   height: 100%;
@@ -389,12 +461,12 @@ a:active {
   width: 100%
 }
 
-.hihat .drum .shortcut-name {
+.hihat .drumm .shortcut-name {
   left: 44%;
   top: 0
 }
 
-.hihat .drum .shortcut-bottom {
+.hihat .drumm .shortcut-bottom {
   top: 60%
 }
 
@@ -513,7 +585,11 @@ button:hover {
 }
 
 .drums {
-  position: relative
+  position: relative;
+  width: 100%;
+  background: #2d2d2d;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .drums,.drums>div {
@@ -626,7 +702,7 @@ button:hover {
   transform: rotate(-30deg)
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
 
 }
 
