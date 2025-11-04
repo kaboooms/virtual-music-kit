@@ -1,4 +1,5 @@
 class VirtualDrumKit {
+
   constructor(name) {
     this.sounds = {
       'hihatRight': {key: 'E', audio: new Audio('assets/sounds/standard/hihat.mp3')},
@@ -13,6 +14,20 @@ class VirtualDrumKit {
       'tom2': {key: 'H', audio: new Audio('assets/sounds/standard/tom2.mp3')},
       'floor': {key: 'J', audio: new Audio('assets/sounds/standard/floor-tom.mp3')},
     }
+    this.animationMap =  {
+      'hihatRight': ['drumstick--hihatRight'],
+      'hihatRightClosed': ['drumstick--hihatLeft'],
+      'hihatFoot': ['pedal'],
+      'crash': ['drumstick--crash'],
+      'ride': ['drumstick--ride'],
+      'snareRight': ['drumstick--snareRight'],
+      'snareRightCrossStick': ['drumstick--snareLeft'],
+      'bass': ['drumstick--bass'],
+      'tom1': ['drumstick--tom1'],
+      'tom2': ['drumstick--tom2'],
+      'floor': ['drumstick--floor']
+    };
+
     this.currentlyPlaying = new Set();
     this.isPlayingSequence = false;
     this.editingSound = null;
@@ -63,7 +78,7 @@ class VirtualDrumKit {
 
     const bass = document.createElement('div');
     bass.classList.add('bass', 'drum');
-
+    bass.dataset.drumstick = 'bass';
     const bassPedalWrapper = document.createElement('div');
     bassPedalWrapper.classList.add('bass-pedal-wrapper');
     const bassHead = document.createElement('div');
@@ -81,7 +96,7 @@ class VirtualDrumKit {
     hihat.classList.add('hihat');
     //  style="translate: none; rotate: none; scale: none; transform: translate(0px, 4.0723px); filter: brightness(1);"></div>
     let hihatCymbal = document.createElement('div');
-    hihatCymbal.classList.add('hihatCymbal');
+    hihatCymbal.classList.add('hihat-cymbal');
     hihat.appendChild(hihatCymbal);
 
     const drumm = document.createElement('div');
@@ -89,11 +104,12 @@ class VirtualDrumKit {
 
     const drum1 = document.createElement('div');
     drum1.className = 'drum';
-
+    drum1.dataset.drumstick = 'hihatRight';
     this.createShortcutSpan('E', drum1)
 
     const drum2 = document.createElement('div');
     drum2.className = 'drum';
+    drum2.dataset.drumstick = 'hihatLeft';
     this.createShortcutSpan('R', drum2, 'shortcut-bottom');
 
     drumm.appendChild(drum1);
@@ -102,6 +118,7 @@ class VirtualDrumKit {
 
     const pedal = document.createElement('div');
     pedal.classList.add('pedal-wrapper', 'drum');
+    drum2.dataset.drumstick = 'hihatRight';
     const chain = document.createElement('div');
     chain.classList.add('chain'); //"translate: none; rotate: none; scale: none; transform: translate(0px, 5.7px);"
     pedal.appendChild(chain);
@@ -123,9 +140,10 @@ class VirtualDrumKit {
     const snareDrum = document.createElement('div');
     snareDrum.classList.add('drumm', 'drum');
     this.createShortcutSpan('S', snareDrum);
-
+    snareDrum.dataset.drumstick = 'snareRight';
     const crossDrum = document.createElement('div');
     crossDrum.classList.add('cross', 'drum');
+    crossDrum.dataset.drumstick = 'snareLeft';
     this.createShortcutSpan('D', crossDrum);
 
     snare.appendChild(snareDrum);
@@ -134,14 +152,17 @@ class VirtualDrumKit {
     // --- TOM-1 ---
     const tom1 = document.createElement('div');
     tom1.classList.add('drum', 'tom-1');
+    tom1.dataset.drumstick = 'tom1';
     this.createShortcutSpan('G', tom1);
     // --- TOM-2 ---
     const tom2 = document.createElement('div');
     tom2.classList.add('drum', 'tom-2');
+    tom2.dataset.drumstick = 'tom2';
     this.createShortcutSpan('H', tom2);
 // --- CRASH ---
     const crash = document.createElement('div');
     crash.classList.add('drum', 'crash');
+    crash.dataset.drumstick = 'crash';
     this.createShortcutSpan('Y', crash);
 
     const fixator1 = document.createElement('span');
@@ -162,6 +183,7 @@ class VirtualDrumKit {
     // --- RIDE ---
     const ride = document.createElement('div');
     ride.classList.add('drum', 'ride');
+    ride.dataset.drumstick = 'ride';
     this.createShortcutSpan('U', ride);
 
     const rideCymbal = document.createElement('div');
@@ -178,7 +200,8 @@ class VirtualDrumKit {
     // --- FLOOR ---
     const floor = document.createElement('div');
     floor.classList.add('drum', 'floor');
-    this.createShortcutSpan('j', floor);
+    floor.dataset.drumstick = 'floor';
+    this.createShortcutSpan('J', floor);
 
     drumsContainer.appendChild(bass);
     drumsContainer.appendChild(hihat);
@@ -212,10 +235,8 @@ class VirtualDrumKit {
       listContainer.appendChild(listOption);
     })
 
-    dropdownContainer.appendChild(dropdownButton);
     dropdownContainer.appendChild(listContainer);
     controlsContainer.appendChild(dropdownContainer);
-    controlsContainer.appendChild(hideShortcutsButton);
 
 
     // Create sequence controls
@@ -264,6 +285,32 @@ class VirtualDrumKit {
     editBtn.title = `Edit key ${keyLetter}`;
     container.appendChild(span);
     container.appendChild(editBtn);
+  }
+
+  animateInstrument(name) {
+    const targets = this.animationMap[name];
+    if (!targets) return;
+
+    targets.forEach(selector => {
+      const elements = document.querySelectorAll(`.${selector}`);
+      elements.forEach(el => {
+        // определяем сторону (левая/правая)
+        const isRight = el.classList.contains('right-drumstick');
+        const sideSelector = isRight ? '.right-drumstick' : '.left-drumstick';
+        // скрываем все остальные палочки этой стороны
+        document.querySelectorAll(sideSelector).forEach(stick => {
+          stick.style.opacity = '0';
+        });
+        // показываем текущую палочку и запускаем анимацию
+        el.style.opacity = '1';
+        el.classList.add('active');
+
+        setTimeout(() =>
+          el.classList.remove('active'),
+          200
+        );
+      });
+    });
   }
 
   bindEvents() {
@@ -323,7 +370,7 @@ class VirtualDrumKit {
     if (sound) {
       this.playSound(sound);
       this.highlightDrum(key, true);
-      setTimeout(() => this.highlightDrum(key, false), 200);
+      setTimeout(() => this.highlightDrum(key, false), 220);
     }
   }
 
@@ -338,6 +385,8 @@ class VirtualDrumKit {
       const drumKey = drum.querySelector('.shortcut-name').textContent;
       if (drumKey === key) {
         drum.classList.toggle('active', isActive);
+        const drumstickName = drum.dataset.drumstick;
+        this.animateInstrument(drumstickName);
       }
     });
   }
@@ -466,16 +515,3 @@ class VirtualDrumKit {
 document.addEventListener('DOMContentLoaded', () => {
   new VirtualDrumKit();
 });
-
-
-// bass.mp3
-// crash.mp3
-// floor-tom.mp3
-// hihat-foot.mp3
-// hihat-open.mp3
-// hihat.mp3
-// ride.mp3
-// snare-drum.mp3
-// snare-stick.mp3
-// tom1.mp3
-// tom2.mp3
