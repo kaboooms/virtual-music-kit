@@ -74,12 +74,8 @@ class VirtualDrumKit {
     bassPedalWrapper.appendChild(bassHead);
     bassPedalWrapper.appendChild(bassPedal);
 
-    const spanBuss = document.createElement('span');
-    spanBuss.classList.add('shortcut-name');
-    spanBuss.textContent = 'X';
     bass.appendChild(bassPedalWrapper);
-    bass.appendChild(spanBuss);
-
+    this.createShortcutSpan('X', bass)
 
     const hihat = document.createElement('div');
     hihat.classList.add('hihat');
@@ -94,17 +90,11 @@ class VirtualDrumKit {
     const drum1 = document.createElement('div');
     drum1.className = 'drum';
 
-    const spanDrum1 = document.createElement('span');
-    spanDrum1.classList.add('shortcut-name');
-    spanDrum1.textContent = 'E';
-    drum1.appendChild(spanDrum1)
+    this.createShortcutSpan('E', drum1)
 
     const drum2 = document.createElement('div');
     drum2.className = 'drum';
-    let spanDrum2 = document.createElement('span');
-    spanDrum2.classList.add('shortcut-name', 'shortcut-bottom');
-    spanDrum2.textContent = 'R';
-    drum2.appendChild(spanDrum2)
+    this.createShortcutSpan('R', drum2, 'shortcut-bottom');
 
     drumm.appendChild(drum1);
     drumm.appendChild(drum2);
@@ -119,10 +109,8 @@ class VirtualDrumKit {
     const pedalInner = document.createElement('div');
     pedalInner.classList.add('pedal');//style="translate: none; rotate: none; scale: none; transform: translate(0px, 2.85px) rotate(-10.0001deg); margin-left: 0px; height: 76%; margin-top: 2px;">
     pedal.appendChild(pedalInner);
-    const spanPedal = document.createElement('span');
-    spanPedal.classList.add('shortcut-name');
-    spanPedal.textContent = 'C';
-    pedal.appendChild(spanPedal);
+
+    this.createShortcutSpan('C', pedal);
 
     hihat.appendChild(hihatCymbal);
     hihat.appendChild(pedal);
@@ -134,17 +122,11 @@ class VirtualDrumKit {
 
     const snareDrum = document.createElement('div');
     snareDrum.classList.add('drumm', 'drum');
-    const snareDrumSpan = document.createElement('span');
-    snareDrumSpan.classList.add('shortcut-name');
-    snareDrumSpan.textContent = 'S';
-    snareDrum.appendChild(snareDrumSpan);
+    this.createShortcutSpan('S', snareDrum);
 
     const crossDrum = document.createElement('div');
     crossDrum.classList.add('cross', 'drum');
-    const crossDrumSpan = document.createElement('span');
-    crossDrumSpan.classList.add('shortcut-name');
-    crossDrumSpan.textContent = 'D';
-    crossDrum.appendChild(crossDrumSpan);
+    this.createShortcutSpan('D', crossDrum);
 
     snare.appendChild(snareDrum);
     snare.appendChild(crossDrum);
@@ -152,25 +134,15 @@ class VirtualDrumKit {
     // --- TOM-1 ---
     const tom1 = document.createElement('div');
     tom1.classList.add('drum', 'tom-1');
-    const gLabel = document.createElement('span');
-    gLabel.classList.add('shortcut-name');
-    gLabel.textContent = 'G';
-    tom1.appendChild(gLabel);
+    this.createShortcutSpan('G', tom1);
     // --- TOM-2 ---
     const tom2 = document.createElement('div');
     tom2.classList.add('drum', 'tom-2');
-    const hLabel = document.createElement('span');
-    hLabel.classList.add('shortcut-name');
-    hLabel.textContent = 'H';
-    tom2.appendChild(hLabel);
+    this.createShortcutSpan('H', tom2);
 // --- CRASH ---
     const crash = document.createElement('div');
     crash.classList.add('drum', 'crash');
-
-    const yLabel = document.createElement('span');
-    yLabel.classList.add('shortcut-name');
-    yLabel.textContent = 'Y';
-    crash.appendChild(yLabel);
+    this.createShortcutSpan('Y', crash);
 
     const fixator1 = document.createElement('span');
     fixator1.classList.add('fixator');
@@ -190,11 +162,7 @@ class VirtualDrumKit {
     // --- RIDE ---
     const ride = document.createElement('div');
     ride.classList.add('drum', 'ride');
-
-    const uLabel = document.createElement('span');
-    uLabel.classList.add('shortcut-name');
-    uLabel.textContent = 'U';
-    ride.appendChild(uLabel);
+    this.createShortcutSpan('U', ride);
 
     const rideCymbal = document.createElement('div');
     rideCymbal.classList.add('--ride-cymbal');
@@ -210,10 +178,7 @@ class VirtualDrumKit {
     // --- FLOOR ---
     const floor = document.createElement('div');
     floor.classList.add('drum', 'floor');
-    const jLabel = document.createElement('span');
-    jLabel.classList.add('shortcut-name');
-    jLabel.textContent = 'J';
-    floor.appendChild(jLabel);
+    this.createShortcutSpan('j', floor);
 
     drumsContainer.appendChild(bass);
     drumsContainer.appendChild(hihat);
@@ -280,6 +245,25 @@ class VirtualDrumKit {
     this.sequenceInput = sequenceInput;
     this.playButton = playButton;
     this.drumsContainer = drumsContainer;
+  }
+
+  createShortcutSpan(keyLetter, container, ...additionalClasses) {
+    const span = document.createElement('span');
+    span.classList.add('shortcut-name');
+    span.textContent = keyLetter;
+
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('edit-btn');
+    if (additionalClasses !== null) {
+      additionalClasses.forEach((type) => {
+        span.classList.add(type);
+        editBtn.classList.add(type);
+      })
+    }
+    editBtn.textContent = '✎'; // или можно использовать иконку SVG
+    editBtn.title = `Edit key ${keyLetter}`;
+    container.appendChild(span);
+    container.appendChild(editBtn);
   }
 
   bindEvents() {
